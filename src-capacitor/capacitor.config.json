@@ -1,0 +1,7 @@
+{
+  "appId": "sirch.mobile.app",
+  "appName": "Sirch",
+  "bundledWebRuntime": false,
+  "npmClient": "yarn",
+  "webDir": "www"
+}

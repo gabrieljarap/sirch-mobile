@@ -1,0 +1,14 @@
+{
+  "primary": "#F16434",
+  "secondary": "#D8DADE",
+  "accent": "#FFFFFF",
+
+  "dark": "#202020",
+
+  "positive": "#85ECC1",
+  "negative": "#E53435",
+  "info": "#71DEEF",
+  "warning": "#F8BC54",
+
+  "medium-gray": "#636363"
+}

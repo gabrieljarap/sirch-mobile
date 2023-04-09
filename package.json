@@ -1,0 +1,74 @@
+{
+  "name": "sirch-mobile",
+  "version": "0.0.1",
+  "description": "Sirch Mobile",
+  "productName": "Sirch",
+  "author": "Gabriel Jaramllo",
+  "private": true,
+  "scripts": {
+    "dev": "quasar dev",
+    "dev:ios": "quasar dev -m capacitor -T ios --livereload",
+    "dev:android": "quasar dev -m capacitor -T android",
+    "build": "quasar build",
+    "build:ios": "quasar build -m capacitor -T ios",
+    "build:android": "quasar build -m capacitor -T android --ide",
+    "lint": "eslint --ext .js,.ts,.vue ./",
+    "test": "echo \"No test specified\" && exit 0",
+    "prepare": "husky install"
+  },
+  "dependencies": {
+    "@mdi/font": "6.9.96",
+    "@quasar/extras": "^1.0.0",
+    "@vueuse/core": "^9.13.0",
+    "axios": "^1.2.1",
+    "lodash": "^4.17.21",
+    "mitt": "^3.0.0",
+    "pinia": "^2.0.11",
+    "quasar": "^2.11.5",
+    "vue": "^3.0.0",
+    "vue-router": "^4.0.0"
+  },
+  "devDependencies": {
+    "@capacitor/core": "^4.7.1",
+    "@commitlint/config-conventional": "^17.4.4",
+    "@ehutch79/vite-eslint": "^0.0.1",
+    "@quasar/app-vite": "^1.2.0",
+    "@types/lodash": "^4.14.192",
+    "@types/node": "^12.20.21",
+    "@typescript-eslint/eslint-plugin": "^5.10.0",
+    "@typescript-eslint/parser": "^5.10.0",
+    "@vue/eslint-config-standard": "^8.0.1",
+    "@vue/eslint-config-typescript": "^11.0.2",
+    "autoprefixer": "^10.4.2",
+    "commitlint": "^17.4.4",
+    "dotenv": "^16.0.3",
+    "eslint": "^8.10.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.19.1",
+    "eslint-plugin-n": "^15.0.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^6.0.0",
+    "eslint-plugin-vue": "^9.0.0",
+    "husky": "^8.0.0",
+    "lint-staged": "^13.2.0",
+    "typescript": "^4.5.4",
+    "unplugin-vue-components": "^0.24.1",
+    "vite": "2.9.15",
+    "vite-plugin-pages": "^0.29.0",
+    "vite-plugin-vue-layouts": "^0.8.0",
+    "vite-plugin-windicss": "^1.8.10",
+    "vite-svg-loader": "^4.0.0",
+    "vitest": "^0.29.2",
+    "windicss": "^3.5.6"
+  },
+  "engines": {
+    "node": "^18 || ^16 || ^14.19",
+    "npm": ">= 6.13.4",
+    "yarn": ">= 1.21.1"
+  },
+  "lint-staged": {
+    "*.{vue,ts,tsx}": [
+      "eslint"
+    ]
+  }
+}

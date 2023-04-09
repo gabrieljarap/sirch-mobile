@@ -1,0 +1,88 @@
+html, body {
+  overflow-x: hidden;
+  transition: all .3s;
+}
+
+body {
+  color: #202020;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+i {
+  font-style: normal;
+}
+
+.v-enter-active,
+.v-leave-active {
+  transition: opacity .5s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}
+
+:focus-visible {
+  outline: none;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -moz-appearance: textfield !important;
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+// Replace Quasar Typography
+h1, h2, h3, h4, h5, h6 {
+  display: block;
+  margin-left: 0;
+  margin-right: 0;
+  font-weight: bold;
+}
+
+h1 {
+  font-size: 2em;
+  line-height: initial;
+  margin-top: 0.67em;
+  margin-bottom: 0.67em;
+}
+
+h2 {
+  font-size: 1.5em;
+  line-height: initial;
+  margin-top: 0.83em;
+  margin-bottom: 0.83em;
+}
+
+h3 {
+  font-size: 1.17em;
+  line-height: initial;
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+h4 {
+  font-size: 1em;
+  line-height: initial;
+  margin-top: 1.33em;
+  margin-bottom: 1.33em;
+}
+
+h5 {
+  font-size: .83em;
+  line-height: initial;
+  margin-top: 1.67em;
+  margin-bottom: 1.67em;
+}
+
+h6 {
+  font-size: .67em;
+  line-height: initial;
+  margin-top: 2.33em;
+  margin-bottom: 2.33em;
+}

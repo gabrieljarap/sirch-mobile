@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Sirch</string>
+    <string name="title_activity_main">Sirch</string>
+    <string name="package_name">sirch.mobile.app</string>
+    <string name="custom_url_scheme">sirch.mobile.app</string>
+</resources>

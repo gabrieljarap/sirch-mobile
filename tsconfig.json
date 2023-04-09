@@ -1,0 +1,22 @@
+{
+  "extends": "@quasar/app-vite/tsconfig-preset",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "types": [
+      "vitest/importMeta"
+    ]
+  },
+  "types": [
+    "node",
+    "webpack-env"
+  ],
+  "include": [
+    "windi.config.ts",
+    "components.d.ts",
+    "vite.config.ts",
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue"
+  ]
+}
