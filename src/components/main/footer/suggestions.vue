@@ -5,6 +5,7 @@
         <q-list
           v-for="suggestion in suggestions"
           :key="suggestion.query"
+          dense
         >
           <q-item
             clickable
@@ -14,21 +15,15 @@
               class="min-w-8 pr-0"
               avatar
             >
-              <q-icon name="mdi-magnify" />
+              <q-icon
+                class="opacity-50"
+                name="mdi-magnify"
+              />
             </q-item-section>
             <q-item-section>
               <q-item-label class="ellipsis">
                 {{ suggestion.displayText }}
               </q-item-label>
-              <q-item-label
-                class="ellipsis"
-                caption
-              >
-                {{ suggestion.url }}
-              </q-item-label>
-            </q-item-section>
-            <q-item-section side>
-              Application
             </q-item-section>
           </q-item>
         </q-list>
