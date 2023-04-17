@@ -1,7 +1,15 @@
 <template>
   <q-footer class="main-footer bg-transparent text-black">
-    <main-footer-suggestions v-if="showSuggestions" />
-    <main-footer-deep-links v-else-if="currentDeepLinks.length" />
+    <transition>
+      <main-footer-suggestions
+        v-if="showSuggestions"
+        class="suggestion-panel"
+      />
+      <main-footer-deep-links
+        v-else-if="currentDeepLinks.length"
+        class="suggestion-panel"
+      />
+    </transition>
     <main-footer-input />
     <main-footer-scroller />
   </q-footer>

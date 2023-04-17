@@ -1,6 +1,18 @@
 <template>
-  <div class="bg-white opacity-90">
+  <div
+    v-if="showMenu"
+    class="bg-white/85"
+  >
     <div class="py-2">
+      <div class="text-right px-4 mb-1">
+        <q-btn
+          class="text-neutral-600"
+          label="close"
+          size="sm"
+          flat
+          @click="showMenu = false"
+        />
+      </div>
       <div class="max-h-60 overflow-y-auto">
         <q-list
           v-for="deepLink in currentDeepLinks"
@@ -42,13 +54,14 @@
 </template>
 
 <script setup lang="ts">
-import { toRefs } from 'vue'
+import { ref, toRefs } from 'vue'
 import { useApp } from 'src/stores/app'
 import { getDomain } from 'src/utils/domain'
 import { BingSearchDeepLink, DomainType } from 'src/types'
 
 const app = useApp()
 const { currentDeepLinks } = toRefs(app)
+const showMenu = ref(true)
 
 const getDomainFromDeepLink = (
   { url, name }: BingSearchDeepLink
