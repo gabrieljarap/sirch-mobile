@@ -58,7 +58,7 @@ export const useApp = defineStore('app', () => {
 
     activeDomainTimer.value = setTimeout(() => {
       activeDomain.value = idx
-    }, 100)
+    }, 50)
   }
 
   const clearAll = () => {
