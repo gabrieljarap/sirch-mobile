@@ -17,6 +17,7 @@
     "prepare": "husky install"
   },
   "dependencies": {
+    "@hyperbeam/web": "^0.0.27",
     "@mdi/font": "6.9.96",
     "@quasar/extras": "^1.0.0",
     "@vueuse/core": "^9.13.0",

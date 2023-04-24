@@ -43,6 +43,7 @@ export const useApp = defineStore('app', () => {
 
   const domainLock = ref(false)
   const activeDomain = ref(0)
+  const activeDomainData = computed(() => domains.value[activeDomain.value] || null)
 
   const currentDeepLinks = computed(() => {
     if (domainMode.value === SearchMode.Characters) { return [] }
@@ -131,6 +132,7 @@ export const useApp = defineStore('app', () => {
 
     domains,
     activeDomain,
+    activeDomainData,
     currentDeepLinks,
 
     setActiveDomain,
