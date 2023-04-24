@@ -1,0 +1,1 @@
+export const { VITE_SIRCH_INTEGRATIONS_URL, VITE_BING_INTEGRATIONS_URL } = import.meta.env
