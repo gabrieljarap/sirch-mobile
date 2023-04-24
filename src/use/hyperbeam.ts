@@ -17,6 +17,8 @@ export const useHyperbeam = () => {
   const container = ref<HTMLIFrameElement | HTMLDivElement | null>(null)
   const { domains, activeDomain, activeDomainData } = toRefs(app)
 
+  const resizeTimer: Ref<NodeJS.Timeout> = ref(-1 as any)
+
   const cachedDomains = computed(() => domains.value.slice(
     Math.max(activeDomain.value - HYPERBEAM_CACHE_WINDOW_RADIUS, 0),
     activeDomain.value + HYPERBEAM_CACHE_WINDOW_RADIUS + 1
@@ -89,9 +91,20 @@ export const useHyperbeam = () => {
     await clearAllTabs()
   }
 
+  const resizeHyperbeam = () => {
+    if (hyperbeam.value) {
+      hyperbeam.value.resize(
+        container.value?.clientWidth || window.innerWidth,
+        container.value?.clientHeight || window.innerHeight
+      )
+    }
+  }
+
   const updateTab = async (id: number) => {
     if (hyperbeam.value) {
-      await hyperbeam.value.tabs.update((windowId.value || 0) + id, { active: true })
+      await hyperbeam.value.tabs
+        .update((windowId.value || 0) + id, { active: true })
+      resizeHyperbeam()
     }
   }
 
@@ -109,6 +122,7 @@ export const useHyperbeam = () => {
 
   const updateHyperbeam = async (session: HyperbeamSession) => {
     hyperbeam.value = await loadHyperBeam(session.embed_url)
+    resizeHyperbeam()
   }
 
   const getNewHyperbeam = async () => {
@@ -118,6 +132,8 @@ export const useHyperbeam = () => {
 
   const initHyperbeam = async () => {
     const session = getSavedSession()
+
+    resizeTimer.value = setInterval(resizeHyperbeam, 1000)
 
     if (session) {
       const res = await checkSession(session.session_id)
@@ -134,6 +150,7 @@ export const useHyperbeam = () => {
     if (hyperbeam.value) {
       hyperbeam.value.destroy()
     }
+    clearInterval(resizeTimer.value)
   }
 
   return {
@@ -143,6 +160,7 @@ export const useHyperbeam = () => {
     activeTabId,
     clearAllTabs,
     refreshTabs,
+    resizeHyperbeam,
     updateTab,
     registerTabs,
     initHyperbeam,

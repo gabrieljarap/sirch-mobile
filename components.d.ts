@@ -14,7 +14,6 @@ declare module '@vue/runtime-core' {
     MainFooter: typeof import('./src/components/main/footer/index.vue')['default']
     MainFooterDeepLinks: typeof import('./src/components/main/footer/deep-links.vue')['default']
     MainFooterInput: typeof import('./src/components/main/footer/input.vue')['default']
-    MainFooterScrollbar: typeof import('./src/components/main/footer/scrollbar.vue')['default']
     MainFooterScroller: typeof import('./src/components/main/footer/scroller.vue')['default']
     MainFooterSuggestions: typeof import('./src/components/main/footer/suggestions.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']

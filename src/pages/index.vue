@@ -1,35 +1,23 @@
 <template>
   <q-page>
-    <transition>
-      <img
-        :key="activeDomain"
-        class="fixed top-0 left-0 w-screen h-screen object-cover"
-        :src="backgroundImages[activeDomain % 10]"
-        alt="Background"
-      >
-    </transition>
     <div
       v-show="(typeof activeTabId) === 'number'"
       ref="container"
-      class="absolute left-0 top-0 right-0 bottom-0"
+      class="absolute -top-1 -left-1 -right-1 -bottom-1"
     />
   </q-page>
 </template>
 
 <script setup lang="ts">
-import { onMounted, onUnmounted, toRefs, watch } from 'vue'
-import { useApp } from 'src/stores/app'
-import { backgroundImages } from 'src/consts/backs'
+import { onMounted, onUnmounted, watch } from 'vue'
 import { useHyperbeam } from 'src/use/hyperbeam'
-
-const app = useApp()
-const { activeDomain } = toRefs(app)
 
 const {
   container,
   cachedDomains,
   activeTabId,
   updateTab,
+  resizeHyperbeam,
   registerTabs,
   initHyperbeam,
   destroyHyperbeam
@@ -41,6 +29,10 @@ watch(activeTabId, () => {
     updateTab(activeTabId.value)
   }
 }, { immediate: true })
+watch([
+  () => container.value?.clientWidth,
+  () => container.value?.clientHeight
+], resizeHyperbeam, { immediate: true })
 
 onMounted(initHyperbeam)
 onUnmounted(destroyHyperbeam)
