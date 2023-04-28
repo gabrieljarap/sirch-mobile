@@ -3,7 +3,7 @@
     <div
       v-show="(typeof activeTabId) === 'number'"
       ref="container"
-      class="absolute -top-1 -left-1 -right-1 -bottom-1"
+      class="hyperbeam absolute -top-1 -left-1 -right-1 -bottom-1"
     />
   </q-page>
 </template>
@@ -20,7 +20,8 @@ const {
   resizeHyperbeam,
   registerTabs,
   initHyperbeam,
-  destroyHyperbeam
+  destroyHyperbeam,
+  refreshHyperbeamColor
 } = useHyperbeam()
 
 watch(cachedDomains, registerTabs, { deep: true, immediate: true })
@@ -33,6 +34,8 @@ watch([
   () => container.value?.clientWidth,
   () => container.value?.clientHeight
 ], resizeHyperbeam, { immediate: true })
+
+setInterval(refreshHyperbeamColor, 200)
 
 onMounted(initHyperbeam)
 onUnmounted(destroyHyperbeam)

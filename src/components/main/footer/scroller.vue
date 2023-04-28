@@ -13,6 +13,7 @@
           :key="domain.url"
           :domain="domain"
           :idx="domainIdx"
+          :vote="domainVoteMap[getBaseDomain(domain.domain)] || 0"
         />
         <div class="w-8 min-w-8">
           &nbsp;
@@ -24,6 +25,7 @@
         />
       </div>
     </div>
+    <div class="main-footer-scroller__average-color" />
   </div>
 </template>
 
@@ -34,12 +36,16 @@ import { useElementBounding, useScroll } from '@vueuse/core'
 import events from 'src/events'
 import { useApp } from 'src/stores/app'
 import { useScroller } from 'src/stores/scroller'
+import { useVote } from 'src/stores/vote'
+import { getBaseDomain } from 'src/utils/domain'
 import { ScrollerItemWidth } from 'src/consts/scroller'
-
+import { useHyperbeamColor } from 'src/use/hyperbeam'
 const app = useApp()
 const { domains, activeDomain } = toRefs(app)
 const scroller = useScroller()
-const { scrollerWidth, scrollerX, from } = toRefs(scroller)
+const { domainVoteMap, updateVoteMap } = useVote()
+const { hyperbeamBg } = useHyperbeamColor()
+const { scrollerWidth, scrollerX } = toRefs(scroller)
 
 const scrollerDOM = ref<HTMLDivElement>()
 const { x, arrivedState } = useScroll(scrollerDOM)
@@ -65,6 +71,7 @@ watch(x, () => {
 
 onMounted(() => {
   events.on('reset', reset)
+  updateVoteMap()
 })
 onUnmounted(() => {
   events.off('reset', reset)
@@ -120,6 +127,18 @@ onUnmounted(() => {
     background-color: #0006;
     transition: all .3s;
     transform: translate(calc(32px + 4px));
+  }
+
+  &__average-color {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 2;
+    background-color: v-bind(hyperbeamBg);
+    pointer-events: none;
+    transition: all .2s ease;
   }
 }
 </style>

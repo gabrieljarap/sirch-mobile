@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="showMenu"
-    class="bg-white/85"
+    class="bg-white/90"
   >
     <div class="py-2">
       <div class="text-right px-4 mb-1">

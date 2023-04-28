@@ -8,11 +8,21 @@
       :href="domain.url"
       @click.prevent
     >
-      <common-icon
-        :domain="domain"
-        width="28px"
-        height="28px"
-      />
+      <div class="relative w-7 h-7 mx-auto">
+        <common-icon
+          :domain="domain"
+          width="28px"
+          height="28px"
+        />
+        <q-badge
+          v-if="vote"
+          class="-top-2 -right-2 border-2 border-secondary text-[8px] px-1"
+          floating
+          rounded
+        >
+          {{ vote }}
+        </q-badge>
+      </div>
       <div class="text-[8px] truncate mt-[6px]">
         <span v-if="domain.name">
           {{ domain.name }}
@@ -35,6 +45,7 @@ import { DomainType } from 'src/types'
 
 const props = defineProps<{
   domain: DomainType,
+  vote: number,
   idx: number
 }>()
 

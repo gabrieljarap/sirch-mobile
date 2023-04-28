@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white/85">
+  <div class="bg-white/90">
     <div class="py-2">
       <div class="max-h-50 overflow-y-auto">
         <q-list

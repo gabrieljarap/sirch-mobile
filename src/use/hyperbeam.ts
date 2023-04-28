@@ -1,5 +1,6 @@
 import { Ref, computed, ref, toRefs } from 'vue'
 import Hyperbeam, { HyperbeamEmbed } from '@hyperbeam/web'
+import { FastAverageColor } from 'fast-average-color'
 
 import apis from 'src/apis'
 import { useApp } from 'src/stores/app'
@@ -7,12 +8,34 @@ import { useApp } from 'src/stores/app'
 import { LOCALSTORAGE_HB_SESSION } from 'src/consts/local-storage'
 import { HyperbeamSession } from 'src/types/hyperbeam'
 
+const hyperbeamBg = ref('transparent')
 const HYPERBEAM_CACHE_WINDOW_RADIUS = 4
+
+export const useHyperbeamColor = () => {
+  const setHyperbeamBg = (hex: string) => {
+    hyperbeamBg.value = hex + '30'
+  }
+  const resetHyperbeamBg = () => {
+    hyperbeamBg.value = 'transparent'
+  }
+
+  return {
+    hyperbeamBg,
+    setHyperbeamBg,
+    resetHyperbeamBg
+  }
+}
 
 export const useHyperbeam = () => {
   const app = useApp()
   const uuid = ref(-1)
   const tabMap: Ref<Record<string, boolean | number>> = ref({})
+  const fac = new FastAverageColor()
+
+  const {
+    setHyperbeamBg,
+    resetHyperbeamBg
+  } = useHyperbeamColor()
 
   const container = ref<HTMLIFrameElement | HTMLDivElement | null>(null)
   const { domains, activeDomain, activeDomainData } = toRefs(app)
@@ -58,10 +81,10 @@ export const useHyperbeam = () => {
     const newTab = await hyperbeam.value.tabs.create({
       index: uuid.value,
       url,
-      active: false
+      active: url === activeDomainData.value.url
     })
 
-    tabMap.value[url] = newTab.index
+    tabMap.value[url] = newTab.id || false
     windowId.value = newTab.windowId
   }
 
@@ -87,10 +110,6 @@ export const useHyperbeam = () => {
     }
   }
 
-  const refreshTabs = async () => {
-    await clearAllTabs()
-  }
-
   const resizeHyperbeam = () => {
     if (hyperbeam.value) {
       hyperbeam.value.resize(
@@ -103,7 +122,7 @@ export const useHyperbeam = () => {
   const updateTab = async (id: number) => {
     if (hyperbeam.value) {
       await hyperbeam.value.tabs
-        .update((windowId.value || 0) + id, { active: true })
+        .update(id, { active: true })
       resizeHyperbeam()
     }
   }
@@ -153,17 +172,30 @@ export const useHyperbeam = () => {
     clearInterval(resizeTimer.value)
   }
 
+  const refreshHyperbeamColor = () => {
+    const videoDom = container.value?.shadowRoot?.querySelector('video')
+
+    if (videoDom && videoDom.clientWidth && videoDom.clientHeight) {
+      fac.getColorAsync(videoDom)
+        .then((color) => {
+          setHyperbeamBg(color.hex)
+        }).catch(() => {
+          resetHyperbeamBg()
+        })
+    }
+  }
+
   return {
     container,
     hyperbeam,
     cachedDomains,
     activeTabId,
     clearAllTabs,
-    refreshTabs,
     resizeHyperbeam,
     updateTab,
     registerTabs,
     initHyperbeam,
-    destroyHyperbeam
+    destroyHyperbeam,
+    refreshHyperbeamColor
   }
 }
