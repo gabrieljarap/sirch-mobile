@@ -54,12 +54,11 @@ export const useApp = defineStore('app', () => {
   const setActiveDomain = (idx: number) => {
     if (domainLock.value) { return }
 
-    focused.value = false
     clearTimeout(activeDomainTimer.value)
 
     activeDomainTimer.value = setTimeout(() => {
       activeDomain.value = idx
-    }, 50)
+    }, 20)
   }
 
   const clearAll = () => {

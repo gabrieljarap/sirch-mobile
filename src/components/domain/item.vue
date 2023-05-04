@@ -22,6 +22,14 @@
         >
           {{ vote }}
         </q-badge>
+        <transition>
+          <heart-svg
+            v-if="isFavoriteUrl"
+            class="absolute -left-[6px] -bottom-[6px] text-negative"
+            width="16"
+            height="16"
+          />
+        </transition>
       </div>
       <div class="text-[8px] truncate mt-[6px]">
         <span v-if="domain.name">
@@ -43,6 +51,9 @@ import { useApp } from 'src/stores/app'
 import { useScroller } from 'src/stores/scroller'
 import { DomainType } from 'src/types'
 
+import HeartSvg from 'src/assets/svg/heart.svg?component'
+import { useFavorites } from 'src/use/favorites'
+
 const props = defineProps<{
   domain: DomainType,
   vote: number,
@@ -56,6 +67,12 @@ const { getRelLeft, getRelRight, resetActive } = useScroller()
 
 const dom = ref()
 const { left, right } = useElementBounding(dom)
+const { isLiked, likeUrl } = useFavorites()
+
+const isFavoriteUrl = ref(isLiked(props.domain.url))
+const favoriteUrl = () => {
+  isFavoriteUrl.value = likeUrl(props.domain.url)
+}
 
 const isActive = computed(() => activeDomain.value === props.idx)
 const overflow = computed(() => {
@@ -66,7 +83,7 @@ const overflow = computed(() => {
 
 const onSelected = () => {
   if (isActive.value) {
-    window.open(props.domain.url, '_blank')
+    favoriteUrl()
   } else {
     setActiveDomain(props.idx)
   }

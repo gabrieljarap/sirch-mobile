@@ -7,7 +7,7 @@
       <div class="text-right px-4 mb-1">
         <q-btn
           class="text-neutral-600"
-          label="close"
+          icon="mdi-close"
           size="sm"
           flat
           @click="showMenu = false"

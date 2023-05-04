@@ -1,9 +1,9 @@
 <template>
   <q-page>
     <div
-      v-show="(typeof activeTabId) === 'number'"
       ref="container"
-      class="hyperbeam absolute -top-1 -left-1 -right-1 -bottom-1"
+      class="hyperbeam"
+      :class="{ 'hyperbeam--inactive': (typeof activeTabId) !== 'number' }"
     />
   </q-page>
 </template>
@@ -40,6 +40,24 @@ setInterval(refreshHyperbeamColor, 200)
 onMounted(initHyperbeam)
 onUnmounted(destroyHyperbeam)
 </script>
+
+<style lang="scss">
+.hyperbeam {
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  right: -1px;
+  bottom: -1px;
+  max-width: calc(100% + 2px);
+  max-height: calc(100% + 2px);
+  min-width: calc(100% + 2px);
+  min-height: calc(100% + 2px);
+
+  &--inactive {
+    opacity: 0;
+  }
+}
+</style>
 
 <route>
 {

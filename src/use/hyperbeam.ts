@@ -5,6 +5,7 @@ import { FastAverageColor } from 'fast-average-color'
 import apis from 'src/apis'
 import { useApp } from 'src/stores/app'
 
+import { SECOND } from 'src/consts/time'
 import { LOCALSTORAGE_HB_SESSION } from 'src/consts/local-storage'
 import { HyperbeamSession } from 'src/types/hyperbeam'
 
@@ -40,7 +41,7 @@ export const useHyperbeam = () => {
   const container = ref<HTMLIFrameElement | HTMLDivElement | null>(null)
   const { domains, activeDomain, activeDomainData } = toRefs(app)
 
-  const resizeTimer: Ref<NodeJS.Timeout> = ref(-1 as any)
+  const pingTimer: Ref<NodeJS.Timeout> = ref(-1 as any)
 
   const cachedDomains = computed(() => domains.value.slice(
     Math.max(activeDomain.value - HYPERBEAM_CACHE_WINDOW_RADIUS, 0),
@@ -152,8 +153,6 @@ export const useHyperbeam = () => {
   const initHyperbeam = async () => {
     const session = getSavedSession()
 
-    resizeTimer.value = setInterval(resizeHyperbeam, 1000)
-
     if (session) {
       const res = await checkSession(session.session_id)
       if (!res.termination_date) {
@@ -163,13 +162,19 @@ export const useHyperbeam = () => {
     }
 
     await getNewHyperbeam()
+
+    pingTimer.value = setInterval(() => {
+      if (hyperbeam.value) {
+        hyperbeam.value.ping()
+      }
+    }, 20 * SECOND)
   }
 
   const destroyHyperbeam = () => {
     if (hyperbeam.value) {
       hyperbeam.value.destroy()
     }
-    clearInterval(resizeTimer.value)
+    clearInterval(pingTimer.value)
   }
 
   const refreshHyperbeamColor = () => {
@@ -190,7 +195,6 @@ export const useHyperbeam = () => {
     hyperbeam,
     cachedDomains,
     activeTabId,
-    clearAllTabs,
     resizeHyperbeam,
     updateTab,
     registerTabs,

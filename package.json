@@ -10,7 +10,7 @@
     "dev:ios": "quasar dev -m capacitor -T ios --livereload",
     "dev:android": "quasar dev -m capacitor -T android",
     "build": "quasar build",
-    "build:ios": "quasar build -m capacitor -T ios",
+    "build:ios": "quasar build -m capacitor -T ios --ide",
     "build:android": "quasar build -m capacitor -T android --ide",
     "lint": "eslint --ext .js,.ts,.vue ./",
     "test": "echo \"No test specified\" && exit 0",

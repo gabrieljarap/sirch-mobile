@@ -31,7 +31,7 @@
 
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted, ref, toRefs, watch } from 'vue'
-import { useElementBounding, useScroll } from '@vueuse/core'
+import { useDraggable, useElementBounding, useScroll } from '@vueuse/core'
 
 import events from 'src/events'
 import { useApp } from 'src/stores/app'
@@ -40,8 +40,9 @@ import { useVote } from 'src/stores/vote'
 import { getBaseDomain } from 'src/utils/domain'
 import { ScrollerItemWidth } from 'src/consts/scroller'
 import { useHyperbeamColor } from 'src/use/hyperbeam'
+
 const app = useApp()
-const { domains, activeDomain } = toRefs(app)
+const { focused, domains, activeDomain } = toRefs(app)
 const scroller = useScroller()
 const { domainVoteMap, updateVoteMap } = useVote()
 const { hyperbeamBg } = useHyperbeamColor()
@@ -50,6 +51,11 @@ const { scrollerWidth, scrollerX } = toRefs(scroller)
 const scrollerDOM = ref<HTMLDivElement>()
 const { x, arrivedState } = useScroll(scrollerDOM)
 const { width } = useElementBounding(scrollerDOM)
+useDraggable(scrollerDOM, {
+  onStart: () => {
+    focused.value = false
+  }
+})
 
 const gradientWidth = computed(() => ({
   left: arrivedState.left ? '32px' : '48px',
@@ -125,7 +131,7 @@ onUnmounted(() => {
     height: 4px;
     border-radius: 2px;
     background-color: #0006;
-    transition: all .3s;
+    transition: all .15s;
     transform: translate(calc(32px + 4px));
   }
 
