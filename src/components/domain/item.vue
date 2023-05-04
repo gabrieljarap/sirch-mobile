@@ -15,12 +15,12 @@
           height="28px"
         />
         <q-badge
-          v-if="vote"
+          v-if="voteCount"
           class="-top-2 -right-2 border-2 border-secondary text-[8px] px-1"
           floating
           rounded
         >
-          {{ vote }}
+          {{ voteCount }}
         </q-badge>
         <transition>
           <heart-svg
@@ -73,6 +73,7 @@ const isFavoriteUrl = ref(isLiked(props.domain.url))
 const favoriteUrl = () => {
   isFavoriteUrl.value = likeUrl(props.domain.url)
 }
+const voteCount = computed(() => props.vote + (isFavoriteUrl.value ? 1 : 0))
 
 const isActive = computed(() => activeDomain.value === props.idx)
 const overflow = computed(() => {
