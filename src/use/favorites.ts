@@ -1,21 +1,14 @@
-import { LOCALSTORAGE_FAVORITES } from 'src/consts/local-storage'
+import { ref } from 'vue'
+import {
+  saveFavorites,
+  getFavorites
+} from 'src/utils/favorites'
+
+const favorites = ref(getFavorites())
 
 export const useFavorites = () => {
-  const saveFavorites = (favorites: string[]) => {
-    localStorage.setItem(LOCALSTORAGE_FAVORITES, JSON.stringify(favorites))
-  }
-
-  const getFavorites = () => {
-    const storedFavorites = localStorage.getItem(LOCALSTORAGE_FAVORITES) || ''
-    try {
-      return JSON.parse(storedFavorites) as string[]
-    } catch (err) {
-      return []
-    }
-  }
-
   const isLiked = (url: string) => {
-    return getFavorites().includes(url)
+    return favorites.value.includes(url)
   }
 
   const likeUrl = (url: string) => {
@@ -31,10 +24,12 @@ export const useFavorites = () => {
     }
 
     saveFavorites(Array.from(favoriteURLSet))
+    favorites.value = Array.from(favoriteURLSet)
     return res
   }
 
   return {
+    favorites,
     saveFavorites,
     getFavorites,
     isLiked,

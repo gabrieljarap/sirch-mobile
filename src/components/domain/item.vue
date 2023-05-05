@@ -3,6 +3,7 @@
     ref="dom"
     class="flex-grow-0 flex-shrink-0 w-18 text-center px-1"
     @click="onSelected"
+    @dblclick="onOpen"
   >
     <a
       :href="domain.url"
@@ -69,10 +70,7 @@ const dom = ref()
 const { left, right } = useElementBounding(dom)
 const { isLiked, likeUrl } = useFavorites()
 
-const isFavoriteUrl = ref(isLiked(props.domain.url))
-const favoriteUrl = () => {
-  isFavoriteUrl.value = likeUrl(props.domain.url)
-}
+const isFavoriteUrl = computed(() => isLiked(props.domain.url))
 const voteCount = computed(() => props.vote + (isFavoriteUrl.value ? 1 : 0))
 
 const isActive = computed(() => activeDomain.value === props.idx)
@@ -84,10 +82,14 @@ const overflow = computed(() => {
 
 const onSelected = () => {
   if (isActive.value) {
-    favoriteUrl()
+    likeUrl(props.domain.url)
   } else {
     setActiveDomain(props.idx)
   }
+}
+
+const onOpen = () => {
+  window.open(props.domain.url, '_blank')
 }
 
 watch([isActive, left, right], () => {

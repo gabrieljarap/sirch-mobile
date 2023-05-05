@@ -5,12 +5,36 @@
       class="hyperbeam"
       :class="{ 'hyperbeam--inactive': (typeof activeTabId) !== 'number' }"
     />
+
+    <transition>
+      <q-btn
+        v-if="activeDomainData"
+        class="absolute left-5 bottom-5"
+        color="negative"
+        :icon="isLiked(activeDomainData.url) ? 'mdi-heart' : 'mdi-heart-outline'"
+        round
+        @click="likeUrl(activeDomainData.url)"
+      />
+    </transition>
+
+    <transition>
+      <q-btn
+        v-if="activeDomainData"
+        class="absolute right-5 bottom-5"
+        :href="activeDomainData.url"
+        color="info"
+        icon="mdi-open-in-new"
+        round
+      />
+    </transition>
   </q-page>
 </template>
 
 <script setup lang="ts">
-import { onMounted, onUnmounted, watch } from 'vue'
+import { onMounted, onUnmounted, toRefs, watch } from 'vue'
+import { useApp } from 'src/stores/app'
 import { useHyperbeam } from 'src/use/hyperbeam'
+import { useFavorites } from 'src/use/favorites'
 
 const {
   container,
@@ -23,6 +47,10 @@ const {
   destroyHyperbeam,
   refreshHyperbeamColor
 } = useHyperbeam()
+const { isLiked, likeUrl } = useFavorites()
+const app = useApp()
+
+const { activeDomainData } = toRefs(app)
 
 watch(cachedDomains, registerTabs, { deep: true, immediate: true })
 watch(activeTabId, () => {
